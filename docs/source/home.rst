@@ -106,11 +106,11 @@ Provides methods for accessing specific rows or columns using Pandas-like `.loc`
 .. code-block:: python
 
     # Selecting rows where A > 50 using .loc
-    d = df.loc[df["A"] > 50, :]
-    print(d)
+    df2 = df.loc[df["A"] > 50, :]
+    print(df2)
 
     # Display first few rows of the DataFrame
-    print(df.df.head(3))
+    print(df2.head(3))
 
 Visualization
 ~~~~~~~~~~~~~
