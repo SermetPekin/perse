@@ -6,6 +6,17 @@ Perse is an experimental Python package that merges essential functionalities fr
 .. contents::
    :local:
 
+
+
+Contents
+--------
+
+- `Introduction <#introduction>`_
+- `Installation <#installation>`_
+- `Examples <#examples>`_
+- `Repository <#repository>`_
+
+
 Introduction
 ------------
 
@@ -19,6 +30,15 @@ To install Perse, use pip:
 .. code-block:: bash
 
     pip install perse
+
+
+Repository
+----------
+
+The Perse code repository is available on GitHub: `https://github.com/SermetPekin/perse <https://github.com/SermetPekin/perse>`_
+
+
+
 
 Getting Started
 ---------------
