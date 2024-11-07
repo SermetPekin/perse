@@ -1,3 +1,5 @@
+[![Python Package](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml/badge.svg)](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml)
+
 [![PyPI](https://img.shields.io/pypi/v/perse)](https://img.shields.io/pypi/v/perse) 
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/perse)](https://pypi.org/project/perse/) 
 [![Downloads](https://static.pepy.tech/badge/perse)](https://pepy.tech/project/perse) 
