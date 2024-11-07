@@ -1,0 +1,13 @@
+*.pyc 
+.venv/
+build/
+*.egg-info
+dist/
+__pycache__/
+.idea/
+.ipynb_checkpoints/
+
+*.txt
+!requirements.txt
+*.ipynb
+TODO.md

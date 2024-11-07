@@ -1,0 +1,38 @@
+[project]
+name = "perse"
+version = "0.1.3"
+description = "Perse is a unified DataFrame package that combines the best of Pandas, Polars, and DuckDB for efficient data handling, querying, and visualization."
+authors = [
+    { name = "Sermet Pekin", email = "Sermet.Pekin@gmail.com" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["dataframe", "polars", "pandas", "duckdb", "data-science", "data-analysis", "SQL", "visualization"]
+
+dependencies = [
+    "duckdb>=1.1.3",
+    "matplotlib>=3.9.2",
+    "numpy>=2.0.2",
+    "pandas>=2.2.3",
+    "polars>=1.12.0",
+    "pyarrow>=18.0.0",
+    "sphinx>=8.1.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.7.2",
+    "rich>=13.9.4",
+    "pytest>=8.3.3",
+    "tox>=4.18.1"
+]
+
+[project.urls]
+repository = "https://github.com/SermetPekin/perse"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[scripts]

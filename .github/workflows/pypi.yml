@@ -1,0 +1,49 @@
+name: Install and Run Example
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  example-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Install Perse package from PyPI
+        run: |
+          python -m pip install --upgrade pip
+          pip install perse
+
+      - name: Create example.py file
+        run: |
+          echo "from perse import DataFrame" > example.py
+          echo "" >> example.py
+          echo "# Create a sample DataFrame" >> example.py
+          echo "df = DataFrame(dl={'A': [1, 2, 3], 'B': [0.5, 0.75, 0.86]})" >> example.py
+          # echo "df.lock()" >> example.py
+          # echo "" >> example.py
+          echo "# Run a simple SQL query" >> example.py
+          echo "result = df.query('SELECT * FROM this WHERE B < 0.86')" >> example.py
+          echo "print('Query Result:')" >> example.py
+          echo "print(result.df)" >> example.py
+          echo "" >> example.py
+          echo "# Add a column and display the DataFrame" >> example.py
+          echo "df.unlock()" >> example.py
+          echo "df.add_column('C', [10, 20, 30])" >> example.py
+          echo "print('DataFrame after adding column C:')" >> example.py
+          echo "print(df.df)" >> example.py
+
+      - name: Run example.py
+        run: |
+          python example.py
