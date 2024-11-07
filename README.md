@@ -73,8 +73,6 @@ pip install perse
 
 
 from perse import DataFrame
-import numpy as np
-import polars as pl
 
 # Sample data creation
 data = {"A": [1, 2, 3], "B": [0.5, 0.75, 0.86], "C": ["X", "Y", "Z"]}
@@ -114,11 +112,10 @@ df.plot(kind="bar", x="A", y="B", title="Sample Bar Plot")
 
 from perse import DataFrame
 import numpy as np
-import polars as pl
 
 # Sample data
 data = {"A": np.random.randint(0, 100, 10), "B": np.random.random(10), "C": np.random.choice(["X", "Y", "Z"], 10)}
-df = DataFrame(dl=pl.DataFrame(data))
+df = DataFrame(data)
 
 # 1. Add a New Column
 df.add_column("D", np.random.random(10))
