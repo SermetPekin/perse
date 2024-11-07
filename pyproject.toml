@@ -1,6 +1,6 @@
 [project]
 name = "perse"
-version = "0.1.3"
+version = "0.1.4"
 description = "Perse is a unified DataFrame package that combines the best of Pandas, Polars, and DuckDB for efficient data handling, querying, and visualization."
 authors = [
     { name = "Sermet Pekin", email = "Sermet.Pekin@gmail.com" }
