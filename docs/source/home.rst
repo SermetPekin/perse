@@ -78,10 +78,10 @@ These methods allow for common data manipulations like adding columns, filtering
     df.add_column("D", np.random.random(10))
 
     # Filter rows where column "A" is greater than 50
-    df.filter_rows(df.dl["A"] > 50)
+    df2 = df.loc[df["A"] > 50, :]
 
     # Get a summary of the data using Pandas' describe method
-    print(df.describe())
+    print(df2.describe())
 
 SQL Querying
 ~~~~~~~~~~~~
