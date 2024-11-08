@@ -37,5 +37,5 @@ class DataFrame(SQLDataFrame, PlottingDataFrame, UtilitiesDataFrame, CopyMixin):
 
 
     def final_copy(self, *args, **kwargs):
-        """final_init"""
+        """final_copy"""
         return self.__class__(dl= kwargs['dl'])

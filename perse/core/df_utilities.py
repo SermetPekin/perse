@@ -65,19 +65,19 @@ class UtilitiesDataFrame(BaseDataFrame):
     """UtilitiesDataFrame"""
 
     def refresh_pandas(self):
-        """Update the Pandas DataFrame from Polars only if necessary."""
+        """refresh_pandas"""
         if not self._is_df_fresh:
             self._df = self.dl.to_pandas()
             self._is_df_fresh = True
 
     @property
     def df(self) -> pd.DataFrame:
-        """Lazy-loaded Pandas DataFrame: updates from Polars if needed."""
+        """ df """
         self.refresh_pandas()
         return self._df
 
     def add_column(self, name: str, values, inplace=False):
-        """Add a column to the Polars DataFrame and mark Pandas as 'not fresh'."""
+        """add_column """
 
         if inplace:
             if self.locked:
@@ -93,7 +93,7 @@ class UtilitiesDataFrame(BaseDataFrame):
             return obj
 
     def filter_rows(self, condition, inplace=False):
-        """Filter rows in Polars and mark Pandas as 'not fresh'."""
+        """filter_rows"""
         if inplace:
             if self.locked:
                 return self.locked_message()
@@ -108,15 +108,15 @@ class UtilitiesDataFrame(BaseDataFrame):
             return obj
 
     def to_pandas(self) -> pd.DataFrame:
-        """Explicit method to return the Pandas DataFrame, refreshing if needed."""
+        """to_pandas"""
         return self.df
 
     def describe(self):
-        """Generate summary statistics (requires conversion to Pandas)."""
+        """Generate summary statistics"""
         return self.df.describe()
 
     def head(self, n: int = 5):
-        """Return the first n rows using Polars, fallback to Pandas if required."""
+        """head"""
         return self.dl.head(n).to_pandas() if not self._is_df_fresh else self.df.head(n)
 
     @property

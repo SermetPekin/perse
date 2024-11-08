@@ -62,7 +62,7 @@ class SQLDataFrame(BaseDataFrame):
         # return self.final_init(dl=pl.DataFrame(result))
 
     def save_to_duckdb(self, table_name: str):
-        """Save the current DataFrame to a DuckDB table."""
+        """save_to_duckdb"""
         self.init_duck()
         temp_table = self.get_table_name()
         self._duckdb_conn.register(temp_table, self.dl.to_pandas())
@@ -72,7 +72,7 @@ class SQLDataFrame(BaseDataFrame):
         self._duckdb_conn.unregister(temp_table)
 
     def load_from_duckdb(self, table_name: str):
-        """Load data from a DuckDB table into both Pandas and Polars DataFrames."""
+        """load_from_duckdb"""
         self.init_duck()
         query = f"SELECT * FROM {table_name}"
         result = self._duckdb_conn.execute(query).fetchdf()
