@@ -28,6 +28,10 @@ Exporting data
     df.to_json('example.json')
 
 
+    # Alternatively this concise expression can also be used
+    df > 'example.csv'
+    df > 'example.xlsx'
+    df > 'example.json'
 
 
 Pipe Operator
