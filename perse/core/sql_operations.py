@@ -28,7 +28,8 @@ import polars as pl
 
 class SQLDataFrame(BaseDataFrame):
     """"""
-    def query(self, query: str):
+
+    def query(self, query: str): # never inplace
         """
         Execute a SQL query on the current DataFrame using DuckDB.
 
@@ -39,7 +40,8 @@ class SQLDataFrame(BaseDataFrame):
             DataFrame: A new DataFrame instance containing the result of the query.
         """
         return self.execute_sql(query)
-    def execute_sql(self, query: str)  : #'DataFrame'
+
+    def execute_sql(self, query: str):  # 'DataFrame' # never inplace
         """
         Execute a SQL query on the current DataFrame using DuckDB.
 
@@ -52,11 +54,12 @@ class SQLDataFrame(BaseDataFrame):
         self.init_duck()
         table_name = self.get_table_name()
         self._duckdb_conn.register(table_name, self.dl.to_pandas())
-
         query = query.replace("this", table_name)
         result = self._duckdb_conn.execute(query).fetchdf()
         self._duckdb_conn.unregister(table_name)
-        return self.final_init(dl=pl.DataFrame(result))
+        obj = self.copy()
+        return obj.final_init(dl=pl.DataFrame(result))
+        # return self.final_init(dl=pl.DataFrame(result))
 
     def save_to_duckdb(self, table_name: str):
         """Save the current DataFrame to a DuckDB table."""

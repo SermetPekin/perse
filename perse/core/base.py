@@ -38,7 +38,7 @@ class BaseDataFrame:
         _type_: _description_
     """
 
-    dl: pl.DataFrame = field(default_factory=pl.DataFrame)  # Polars as primary
+    dl: pl.DataFrame | dict | pd.DataFrame = field(default_factory=pl.DataFrame)  # Polars as primary
     _df: pd.DataFrame = field(default_factory=pd.DataFrame, init=False, repr=False)
     _is_df_fresh: bool = field(default=True, init=False, repr=False)
     _duckdb_conn: duckdb.DuckDBPyConnection = field(
@@ -109,6 +109,17 @@ class BaseDataFrame:
     def __repr__(self):
         return self.__str__()
 
+    def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        return self.table_name == other.table_name
+
+    def __bool__(self):
+        return bool(self.dl.shape[0])
+
+    def __contains__(self, item: str):
+        return item in self.dl.columns
+
     def __getitem__(self, key):
         """Get column(s) from Polars, converting to Pandas if needed."""
         self.refresh_pandas()
@@ -161,5 +172,6 @@ class BaseDataFrame:
             combined_df = pd.concat(
                 [self.df, other.df], axis=0, ignore_index=True, join="outer"
             )
+        obj = self.copy()
 
-        return self.final_init(dl=pl.DataFrame(combined_df))
+        return obj.final_init(dl=pl.DataFrame(combined_df))

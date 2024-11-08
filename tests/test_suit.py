@@ -1,3 +1,4 @@
+
 import pytest
 import polars as pl
 import pandas as pd
@@ -18,7 +19,7 @@ def sample_data():
 
 def test_add_column(sample_data):
     """Test adding a new column to the Polars DataFrame."""
-    sample_data.add_column("D", np.random.random(10))
+    sample_data.add_column("D", np.random.random(10) , inplace=True)
     assert "D" in sample_data.dl.columns
     assert len(sample_data.dl["D"]) == 10
 
@@ -26,7 +27,7 @@ def test_add_column(sample_data):
 def test_filter_rows(sample_data):
     """Test filtering rows in the DataFrame."""
     initial_count = len(sample_data.dl)
-    sample_data.filter_rows(sample_data.dl["A"] > 50)
+    sample_data.filter_rows(sample_data.dl["A"] > 50 , inplace=True)
     assert len(sample_data.dl) <= initial_count
     assert all(sample_data.dl["A"] > 50)
 

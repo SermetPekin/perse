@@ -76,21 +76,36 @@ class UtilitiesDataFrame(BaseDataFrame):
         self.refresh_pandas()
         return self._df
 
-    def add_column(self, name: str, values):
+    def add_column(self, name: str, values, inplace=False):
         """Add a column to the Polars DataFrame and mark Pandas as 'not fresh'."""
-        if self.locked:
-            return self.locked_message()
 
-        self.dl = self.dl.with_columns(pl.Series(name, values))
-        self._is_df_fresh = False
+        if inplace:
+            if self.locked:
+                return self.locked_message()
 
-    def filter_rows(self, condition):
+            self.dl = self.dl.with_columns(pl.Series(name, values))
+            self._is_df_fresh = False
+            return self
+        else:
+            obj = self.copy()
+            obj.dl = obj.dl.with_columns(pl.Series(name, values))
+            obj._is_df_fresh = False
+            return obj
+
+    def filter_rows(self, condition, inplace=False):
         """Filter rows in Polars and mark Pandas as 'not fresh'."""
-        if self.locked:
-            return self.locked_message()
-        self.dl = self.dl.filter(condition)
-        self._is_df_fresh = False
-        return self
+        if inplace:
+            if self.locked:
+                return self.locked_message()
+
+            self.dl = self.dl.filter(condition)
+            self._is_df_fresh = False
+            return self
+        else:
+            obj = self.copy()
+            obj.dl = obj.dl.filter(condition)
+            obj._is_df_fresh = False
+            return obj
 
     def to_pandas(self) -> pd.DataFrame:
         """Explicit method to return the Pandas DataFrame, refreshing if needed."""
@@ -115,20 +130,24 @@ class UtilitiesDataFrame(BaseDataFrame):
         return self.df.values
 
     @property
-    def loc(self):
+    def loc(self): # never inplace
         """loc
 
         Returns:
             _type_: _description_
         """
-        return DataFrameLocator(self)
+        self.refresh_pandas()
+        obj = self.copy()
+
+        return DataFrameLocator(obj)
 
     @property
-    def iloc(self):
+    def iloc(self): # never inplace
         """iloc
 
         Returns:
             _type_: _description_
         """
         self.refresh_pandas()
-        return IDataFrameLocator(self)
+        obj = self.copy()
+        return IDataFrameLocator(obj)

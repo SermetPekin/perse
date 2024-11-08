@@ -88,9 +88,15 @@ print("After adding column D:")
 print(df.df)
 
 # Filter rows
-df.filter_rows(df.dl["A"] > 50)
+df2 = df.loc[df.dl["A"] > 50 , : ] 
 print("Filtered DataFrame where A > 50:")
-print(df.df)
+print(df2)
+
+
+# Filter columns
+df2 = df.loc[ : ,  ["A" , "B"] ] 
+print("All rows but only columns A and B ")
+print(df2)
 
 # Lock and unlock the DataFrame
 df.lock()
@@ -119,11 +125,13 @@ df = DataFrame(data)
 
 # 1. Add a New Column
 df.add_column("D", np.random.random(10))
-print("DataFrame with new column D:\n", df.df)
+print("DataFrame with new column D:\n", df)
 
-# 2. Filter Rows
+# 2.A Filter Rows
+df2 = df.loc[df["A"] > 50 , : ]
+print("Filtered DataFrame (A > 50):\n", df2)
+# 2.B Filter rows where column "A" is greater than 50
 df.filter_rows(df.dl["A"] > 50)
-print("Filtered DataFrame (A > 50):\n", df.df)
 
 # 3. SQL Querying with DuckDB
 result = df.query("SELECT A, AVG(B) AS avg_B FROM this GROUP BY A")

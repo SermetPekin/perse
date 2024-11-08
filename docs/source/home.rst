@@ -6,17 +6,6 @@ Perse is an experimental Python package that merges essential functionalities fr
 .. contents::
    :local:
 
-
-
-Contents
---------
-
-- `Introduction <#introduction>`_
-- `Installation <#installation>`_
-- `Examples <#examples>`_
-- `Repository <#repository>`_
-
-
 Introduction
 ------------
 
@@ -30,15 +19,6 @@ To install Perse, use pip:
 .. code-block:: bash
 
     pip install perse
-
-
-Repository
-----------
-
-The Perse code repository is available on GitHub: `https://github.com/SermetPekin/perse <https://github.com/SermetPekin/perse>`_
-
-
-
 
 Getting Started
 ---------------
@@ -98,7 +78,7 @@ These methods allow for common data manipulations like adding columns, filtering
     df.add_column("D", np.random.random(10))
 
     # Filter rows where column "A" is greater than 50
-    df2 = df.loc[df["A"] > 50, :]
+    df2 = df.filter_rows(df.dl["A"] > 50)
 
     # Get a summary of the data using Pandas' describe method
     print(df2.describe())
@@ -114,7 +94,7 @@ Leverage DuckDB to run SQL queries directly on the DataFrame. This feature allow
 
     # Use DuckDB SQL to filter rows
     result = df.query("SELECT * FROM this WHERE A > 50")
-    print(result.df)
+    print(result)
 
 Indexing and Selection
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -126,7 +106,7 @@ Provides methods for accessing specific rows or columns using Pandas-like `.loc`
 .. code-block:: python
 
     # Selecting rows where A > 50 using .loc
-    df2 = df.loc[df["A"] > 50, :]
+    df2  = df.loc[df["A"] > 50, :]
     print(df2)
 
     # Display first few rows of the DataFrame

@@ -1,3 +1,4 @@
+
 import pytest
 import numpy as np
 import pandas as pd
@@ -44,7 +45,7 @@ def test_apply_double():
 def test_add_column(unified_df):
     # Add a new column and verify synchronization
     new_column_data = np.random.random(10)
-    unified_df.add_column('D', new_column_data)
+    unified_df.add_column('D', new_column_data , inplace=True)
 
     # Check if column 'D' exists in Polars DataFrame
     assert 'D' in unified_df.dl.columns
@@ -58,7 +59,7 @@ def test_add_column(unified_df):
 def test_filter_rows(unified_df):
     # Filter rows where column 'A' > 50
     condition = unified_df.dl['A'] > 50
-    unified_df.filter_rows(condition)
+    unified_df.filter_rows(condition , inplace=True)
 
     # Check if Polars DataFrame is filtered correctly
     assert all(unified_df.dl['A'] > 50)
@@ -88,7 +89,7 @@ def test_lazy_conversion(unified_df):
     assert unified_df._is_df_fresh  # Pandas should be fresh after accessing
 
     # Modify Polars DataFrame and check that Pandas becomes stale
-    unified_df.add_column('E', np.random.random(10))
+    unified_df.add_column('E', np.random.random(10) , inplace=True)
     assert not unified_df._is_df_fresh  # Pandas should be stale again
 
 

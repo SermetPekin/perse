@@ -11,7 +11,7 @@ Welcome to perse's documentation!
    :caption: Contents:
 
    home
-
+   indexing
 
 Indices and tables
 ==================
