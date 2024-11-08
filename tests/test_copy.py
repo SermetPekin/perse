@@ -1,20 +1,17 @@
 import pytest
 import numpy as np
 import polars as pl
-from perse import DataFrame  # replace with actual import path
-
+from perse import DataFrame
 
 @pytest.fixture
 def unified_df():
-    # Set up sample data for tests
     np.random.seed(42)
     data = {
         'A': range(10),
         'B': range(10),
         'C': range(10)
     }
-    df_pl = pl.DataFrame(data)
-    return DataFrame(dl=df_pl)
+    return DataFrame(data)
 
 
 def test_copy(unified_df):

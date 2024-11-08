@@ -3,12 +3,11 @@ import pytest
 import numpy as np
 import pandas as pd
 import polars as pl
-from perse import DataFrame  # replace with actual import path
+from perse import DataFrame
 
 
 @pytest.fixture
 def unified_df():
-    # Set up sample data for tests
     np.random.seed(42)
     data = {
         'A': np.random.randint(0, 100, 10),
@@ -38,64 +37,50 @@ def test_creations():
 
 def test_apply_double():
     data = get_dict()
-    d1 = pl.DataFrame(data)
-    # d2 = d1 + {'A': lambda x: x ** 2}
-
+    d1 = DataFrame(data)
+    assert d1
 
 def test_add_column(unified_df):
-    # Add a new column and verify synchronization
     new_column_data = np.random.random(10)
     unified_df.add_column('D', new_column_data , inplace=True)
 
-    # Check if column 'D' exists in Polars DataFrame
     assert 'D' in unified_df.dl.columns
 
-    # Check if column 'D' exists and matches in the Pandas DataFrame after access
     df_pandas = unified_df.df
     assert 'D' in df_pandas.columns
     np.testing.assert_array_almost_equal(df_pandas['D'].values, new_column_data)
 
 
 def test_filter_rows(unified_df):
-    # Filter rows where column 'A' > 50
     condition = unified_df.dl['A'] > 50
     unified_df.filter_rows(condition , inplace=True)
 
-    # Check if Polars DataFrame is filtered correctly
     assert all(unified_df.dl['A'] > 50)
 
-    # Check if Pandas DataFrame reflects the same filter
     df_pandas = unified_df.df
     assert all(df_pandas['A'] > 50)
 
 
 def test_describe(unified_df):
-    # Run describe and verify summary statistics in Pandas
     describe_df = unified_df.describe()
     assert isinstance(describe_df, pd.DataFrame)
 
-    # Check for expected columns in describe output
     expected_columns = ['A', 'B']
     for col in expected_columns:
         assert col in describe_df.columns
 
 
 def test_lazy_conversion(unified_df):
-    # Check initial state (Pandas should be stale)
     assert not unified_df._is_df_fresh
-
-    # Access Pandas DataFrame and ensure it's refreshed
     _ = unified_df.df
-    assert unified_df._is_df_fresh  # Pandas should be fresh after accessing
+    assert unified_df._is_df_fresh
 
-    # Modify Polars DataFrame and check that Pandas becomes stale
+
     unified_df.add_column('E', np.random.random(10) , inplace=True)
-    assert not unified_df._is_df_fresh  # Pandas should be stale again
+    assert not unified_df._is_df_fresh
 
 
 def test_head(unified_df):
-    # Retrieve the first 3 rows from both Polars and Pandas, verify they match
     polars_head = unified_df.dl.head(3).to_pandas()
     pandas_head = unified_df.df.head(3)
-
     pd.testing.assert_frame_equal(polars_head, pandas_head)
