@@ -67,52 +67,8 @@ To install Perse, run:
 ```bash
 pip install perse
 ```
+
 ### Usage 
-
-```python 
-
-
-from perse import DataFrame
-
-# Sample data creation
-data = {"A": [1, 2, 3], "B": [0.5, 0.75, 0.86], "C": ["X", "Y", "Z"]}
-df = DataFrame(data)
-
-# Apply SQL query
-result = df.query("SELECT * FROM this WHERE B < 0.86")
-print(result.df)
-
-# Add a new column with custom transformation
-df.add_column("D", [10, 20, 30])
-print("After adding column D:")
-print(df.df)
-
-# Filter rows
-df2 = df.loc[df.dl["A"] > 50 , : ] 
-print("Filtered DataFrame where A > 50:")
-print(df2)
-
-
-# Filter columns
-df2 = df.loc[ : ,  ["A" , "B"] ] 
-print("All rows but only columns A and B ")
-print(df2)
-
-# Lock and unlock the DataFrame
-df.lock()
-print("DataFrame is now locked.")
-df.unlock()
-print("DataFrame is now unlocked and editable.")
-
-# Plot data
-df.plot(kind="bar", x="A", y="B", title="Sample Bar Plot")
-
-
-
-```
-
-
-### Examples 
 
 ```python 
 
@@ -123,26 +79,51 @@ import numpy as np
 data = {"A": np.random.randint(0, 100, 10), "B": np.random.random(10), "C": np.random.choice(["X", "Y", "Z"], 10)}
 df = DataFrame(data)
 
-# 1. Add a New Column
-df.add_column("D", np.random.random(10))
+# 1. Add a New Column 
+df.add_column("D", np.random.random(10), inplace=True)
 print("DataFrame with new column D:\n", df)
 
-# 2.A Filter Rows
-df2 = df.loc[df["A"] > 50 , : ]
+# 2. Filter Rows
+df2 = df.filter_rows(df.dl["A"] > 50, inplace=False) # default inplace = False 
 print("Filtered DataFrame (A > 50):\n", df2)
-# 2.B Filter rows where column "A" is greater than 50
-df.filter_rows(df.dl["A"] > 50)
 
 # 3. SQL Querying with DuckDB
-result = df.query("SELECT A, AVG(B) AS avg_B FROM this GROUP BY A")
-print("SQL Query Result:\n", result.df)
+df2 = df.query("SELECT A, AVG(B) AS avg_B FROM this GROUP BY A")
+print("SQL Query Result:\n", df2)
 
 # 4. Visualization
 df.plot(kind="scatter", x="A", y="B", title="Scatter Plot of A vs B", xlabel="A values", ylabel="B values")
 
 # 5. Convert to Pandas
-pandas_df = df.to_pandas()
-print("Converted to Pandas DataFrame:\n", pandas_df)
+df2 = df.to_pandas()
+print("Converted to Pandas DataFrame:\n", df2)
 
+
+```
+
+
+
+
+
+Pipe Operator
+================
+In Python, the | operator is traditionally used as the OR operator. However, in the DataFrame class, the | operator has been repurposed for a functional, chainable approach, similar to other modern data processing libraries. This enables more readable and flexible expressions.
+
+```python 
+
+from perse import DataFrame
+import numpy as np
+
+# Sample data
+data = {"A": np.random.randint(0, 100, 10), "B": np.random.random(10), "C": np.random.choice(["X", "Y", "Z"], 10)}
+df = DataFrame(data)
+# Applying the print function to the DataFrame instance
+df | print
+
+# Chaining functions: the instance is returned if no modification is made
+df2 = df | print | print
+
+# Using a lambda function to call `to_csv` with arguments, demonstrating flexibility in piping
+_ = df | (lambda x: x.to_csv('example.csv'))
 
 ```
