@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 from dataclasses import dataclass, field
-from typing import Union
+from typing import Union, Callable
 import pandas as pd
 import polars as pl
 import duckdb
@@ -106,6 +106,14 @@ class BaseDataFrame:
         template += str(self.dl)
         return template
 
+    def __or__(self, other: Callable, *args, **kw):
+
+        if callable(other):
+            res = other(self, *args, **kw)
+            if isinstance(res, BaseDataFrame):
+                return res
+        return self
+
     def __repr__(self):
         return self.__str__()
 
@@ -121,12 +129,10 @@ class BaseDataFrame:
         return item in self.dl.columns
 
     def __getitem__(self, key):
-        """Get column(s) from Polars, converting to Pandas if needed."""
         self.refresh_pandas()
         return self._df[key]
 
     def __setitem__(self, key, value):
-        """Set column(s) in Polars and mark Pandas as 'not fresh'."""
         if self.locked:
             return self.locked_message()
 
@@ -134,28 +140,23 @@ class BaseDataFrame:
         self._is_df_fresh = False
 
     def init_duck(self):
-        """Initialize the DuckDB connection if not already initialized."""
         if not self._duckdb_initialized:
             self._duckdb_conn = duckdb.connect()
             self._duckdb_initialized = True
 
     def get_table_name(self) -> str:
-        """Generate or retrieve a unique table name for the DuckDB connection."""
         if not hasattr(self, "table_name") or not isinstance(self.table_name, str):
             self.table_name = f"temp_{uuid.uuid4().hex}"
         return self.table_name
 
     def sql_to_polars(self, query: str) -> pl.DataFrame:
-        """Execute SQL and return result as Polars DataFrame."""
         result_df = self.execute_sql(query)
         return result_df.dl
 
     def sql_to_pandas(self, query: str) -> pd.DataFrame:
-        """Execute SQL and return result as Pandas DataFrame."""
         return self.execute_sql(query).df
 
     def __add__(self, other):
-        """Concatenate two DataFrames based on shape and columns."""
 
         if not isinstance(other, BaseDataFrame):
             raise TypeError("Can only add another DataFrame instance.")

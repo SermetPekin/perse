@@ -76,6 +76,18 @@ class UtilitiesDataFrame(BaseDataFrame):
         self.refresh_pandas()
         return self._df
 
+    def to_csv(self, *args, **kwargs):
+        self.df.to_csv(*args, **kwargs)
+        return self
+
+    def to_json(self, *args, **kwargs):
+        self.df.to_json(*args, **kwargs)
+        return self
+
+    def to_excel(self, *args, **kwargs):
+        self.df.to_excel(*args, **kwargs)
+        return self
+
     def add_column(self, name: str, values, inplace=False):
         """add_column """
 
@@ -130,7 +142,7 @@ class UtilitiesDataFrame(BaseDataFrame):
         return self.df.values
 
     @property
-    def loc(self): # never inplace
+    def loc(self):  # never inplace
         """loc
 
         Returns:
@@ -142,7 +154,7 @@ class UtilitiesDataFrame(BaseDataFrame):
         return DataFrameLocator(obj)
 
     @property
-    def iloc(self): # never inplace
+    def iloc(self):  # never inplace
         """iloc
 
         Returns:
