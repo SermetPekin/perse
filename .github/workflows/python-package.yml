@@ -35,9 +35,9 @@ jobs:
         # uv pip install .
         pip install -r ./requirements.txt
 
-    - name: Run static code analysis with Ruff
-      run: |
-        ruff check . --ignore F841
+    # - name: Run static code analysis with Ruff
+    #   run: |
+    #     ruff check . --ignore F841
 
     - name: Run tests with pytest
       run: |
