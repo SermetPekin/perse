@@ -1,6 +1,6 @@
-[![Python Package](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml/badge.svg?1)](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml)[![PyPI](https://img.shields.io/pypi/v/perse)](https://img.shields.io/pypi/v/perse)[![Supported Python Versions](https://img.shields.io/pypi/pyversions/perse)](https://pypi.org/project/perse/) 
 
-
+[![Python Package](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml/badge.svg?2)](https://github.com/SermetPekin/perse/actions/workflows/python-package.yml)
+[![PyPI](https://img.shields.io/pypi/v/perse)](https://img.shields.io/pypi/v/perse) ![PyPI Downloads](https://static.pepy.tech/badge/perse?2)![t](https://img.shields.io/badge/status-maintained-yellow.svg) [![](https://img.shields.io/github/license/SermetPekin/perse.svg)](https://github.com/SermetPekin/perse/blob/master/LICENSE.md) [![](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/) 
 
 
 
