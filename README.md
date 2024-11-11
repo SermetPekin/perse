@@ -100,9 +100,37 @@ print("Converted to Pandas DataFrame:\n", df2)
 
 
 ```
+### Exporting data
+```python
+
+from perse import DataFrame
+import numpy as np
+
+# Generate sample data
+np.random.seed(42)
+data = {
+    "A": np.random.randint(0, 100, 10),
+    "B": np.random.random(10),
+    "C": np.random.choice(["X", "Y", "Z"], 10),
+}
+
+df = DataFrame(data)
+
+# Export as CSV file
+df.to_csv('example.csv')
+
+# Export as Excel file
+df.to_excel('example.xlsx')
+
+# Export as JSON file
+df.to_json('example.json')
 
 
-
+# Alternatively this concise expression can also be used
+df > 'example.csv'
+df > 'example.xlsx'
+df > 'example.json'
+```
 
 
 Pipe Operator
